@@ -1,18 +1,15 @@
 package br.com.prime.novatask.controller;
 
-import br.com.prime.novatask.dominio.tarefa.DadosListagemTarefa;
 import br.com.prime.novatask.dominio.tarefa.Tarefa;
 import br.com.prime.novatask.dominio.tarefa.TarefaRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,9 +21,8 @@ public class TarefaController {
     TarefaRepository tarefaRepository;
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemTarefa>> listarTarefas(@PageableDefault(size = 10, sort = {"titulo"}) Pageable paginacao) {
-        var page = tarefaRepository.findAll(paginacao).map(DadosListagemTarefa::new);
-        return ResponseEntity.ok(page);
+    public List<Tarefa> listarTarefas() {
+        return tarefaRepository.findAll();
     }
 
     @PostMapping("adicionar")
